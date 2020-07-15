@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  cli-host-mount:
+    image: busybox
+    volumes:
+      - .:/home
+
+  cli-nfs-mount:
+    image: busybox
+    volumes:
+      - nfsmount:/home:cached
+
+volumes:
+  nfsmount:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: ":${PWD}"
